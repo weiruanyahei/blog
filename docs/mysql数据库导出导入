@@ -1,0 +1,30 @@
+mysql数据库导出导入：
+
+step1:远程导出:
+./mysqldump -h192.168.1.125 -uroot -pmysql --set-gtid-purged=OFF --skip-lock-tables --default-character-set=utf8 -R  elive > /Users/ldy/Desktop/elive_2017062715.sql
+
+/usr/local/mysql/bin/mysqldump -h10.2.0.72 -uelectronicpolicy -pelectronicpolicy --set-gtid-purged=OFF --skip-lock-tables --default-character-set=utf8 -R  electronicpolicy > /Users/ldy/Desktop/hglife/projectsInfo/db/cms/electronicpolicy_2017070510.sql
+
+
+step2:命令终端登陆mysql:
+docker start c748b5e07935
+/usr/local/mysql/bin/mysql -h 127.0.0.1 -P 3309 -u root -p --default-character-set=utf8
+
+step3:创建同名数据库：
+a、查看是否已存在同名数据库：
+mysql> show databases;
+
+b、不存在时直接创建同名db：
+CREATE DATABASE IF NOT EXISTS hgelec_bus DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS electronicpolicy DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+mysql> create database elive;
+Query OK, 1 row affected (0.01 sec)
+
+step4:数据导入：
+a、切换到同名数据库：
+mysql> use elive;
+Database changed
+
+b、将导出文件生效处理：
+source /Users/ldy/Desktop/elive_2017062715.sql
+
